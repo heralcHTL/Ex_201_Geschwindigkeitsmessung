@@ -1,5 +1,6 @@
 
 import BL.Measurement;
+import BL.VelocityTableModel;
 import BL.VelocityTableRenderer;
 import gui.VelocityDLG;
 import javax.swing.JOptionPane;

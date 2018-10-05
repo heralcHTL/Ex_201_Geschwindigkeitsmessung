@@ -1,6 +1,7 @@
 package BL;
 
 import java.awt.Color;
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
@@ -14,7 +15,8 @@ import java.time.LocalTime;
  *
  * @author Richard Hofmeister
  */
-public class Measurement {
+public class Measurement implements Comparable<Measurement>, Serializable
+{
     private LocalDate datum;
     private LocalTime uhrzeit;
     private String kennzeichen;
@@ -77,6 +79,16 @@ public class Measurement {
 
     public int getErlaubt() {
         return erlaubt;
+    }
+    
+    public int getUebertretung()
+    {
+        return (gemessen - erlaubt);
+    }
+
+    @Override
+    public int compareTo(Measurement o) {
+        return (int)(o.getUebertretung() - this.getUebertretung());
     }
     
     
