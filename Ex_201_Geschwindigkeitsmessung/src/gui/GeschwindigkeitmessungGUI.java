@@ -4,6 +4,7 @@ import BL.VelocityTableModel;
 import BL.VelocityTableRenderer;
 import gui.VelocityDLG;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableColumn;
 
@@ -147,8 +148,9 @@ public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
 
     private void onRemoveMeasure(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveMeasure
         try {
-            int[] indicies = tbGeschwindigkeitsmessung.getSelectedRows();
-            vtm.remove(indicies);
+            int row = tbGeschwindigkeitsmessung.getSelectedRow();
+            int column = tbGeschwindigkeitsmessung.getSelectedColumn();
+            vtm.remove((Measurement)vtm.getValueAt(row, column));
 
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error");

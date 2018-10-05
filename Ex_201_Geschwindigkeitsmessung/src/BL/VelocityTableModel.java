@@ -62,6 +62,12 @@ public class VelocityTableModel extends AbstractTableModel
         fireTableRowsInserted(list.size()-1, list.size()-1);
     }
     
+    public void remove(Measurement m)
+    {
+        list.remove(m);
+        Collections.sort(list);
+        fireTableRowsInserted(list.size()-1, list.size()-1);
+    }
     
     public void saveToBinaryFile()
     {
@@ -80,6 +86,18 @@ public class VelocityTableModel extends AbstractTableModel
         {
             System.out.println(ex.toString());
         }
+    }
+    
+    public int berechneDurchschnitt()
+    {
+        int erg = 0;
+        int count = 0;
+        for (int i = 0; i < list.size(); i++) {
+            erg += list.get(i).getGemessen();
+            count++;
+        }
+        
+        return erg /count;
     }
     
     public void loadFromBinaryFile()
