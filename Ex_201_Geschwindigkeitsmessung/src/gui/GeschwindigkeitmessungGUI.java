@@ -1,3 +1,9 @@
+
+import gui.VelocityDLG;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.TableColumn;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -10,11 +16,44 @@
  */
 public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
 
+     private VelocityTableModel vtm = new VelocityTableModel();
     /**
      * Creates new form GeschwindigkeitmessungGUI
      */
     public GeschwindigkeitmessungGUI() {
         initComponents();
+        
+        this.setLocationRelativeTo(this);
+        initTable();
+        
+        try
+        {
+            vtm.loadFromBinaryFile();
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
+        
+    }
+    
+    public void initTable()
+    {
+        int[] colWidth = {200, 200, 350, 200, 200, 200};
+        DefaultTableColumnModel dtcm = new DefaultTableColumnModel();
+        
+        
+        for (int i = 0; i < colWidth.length; i++) 
+        {
+            TableColumn tc = new TableColumn(i, colWidth[i]);
+            tc.setResizable(false);
+            dtcm.addColumn(tc);
+
+        }
+
+        tbGeschwindigkeitsmessung.setModel(vtm); 
+        tbGeschwindigkeitsmessung.setColumnModel(dtcm);   
+        tbGeschwindigkeitsmessung.setDefaultRenderer(Object.class, new VelocityTableRenderer());
     }
 
     /**
@@ -95,15 +134,48 @@ public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAddMeasure(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddMeasure
-        // TODO add your handling code here:
+        try
+        {
+            VelocityDLG vdlg =  new VelocityDLG(this, true);
+            vdlg.setVisible(true);
+        
+//            if(vdlg.isOk())
+//            {
+//               vtm.addMeasurement(vdlg.getMesurement());
+//               vtm.saveToBinaryFile();
+//            }  
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
     }//GEN-LAST:event_onAddMeasure
 
     private void onRemoveMeasure(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveMeasure
-        // TODO add your handling code here:
+         try
+        {
+            int[] indicies = tbGeschwindigkeitsmessung.getSelectedRows();
+            vtm.remove(indicies);
+            vtm.saveToBinaryFile();
+            
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
     }//GEN-LAST:event_onRemoveMeasure
 
     private void gitDisplayAverage(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gitDisplayAverage
-        // TODO add your handling code here:
+        try
+        {
+            double durchschnitt = vtm.berechneDurchschnitt();
+            String s = "Durchschnittsübertretung: " + durchschnitt + " km/h";
+            JOptionPane.showMessageDialog(null, s);
+        }
+        catch(Exception ex)
+        {
+            JOptionPane.showMessageDialog(null, "Error");
+        }
     }//GEN-LAST:event_gitDisplayAverage
 
     /**
