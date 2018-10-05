@@ -5,12 +5,18 @@
  */
 package gui;
 
+import BL.Measurement;
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 /**
  *
  * @author Sabrina
  */
 public class VelocityDLG extends javax.swing.JDialog {
 
+    private Measurement m;
+    
     /**
      * Creates new form VelocityDLG
      */
@@ -28,22 +34,90 @@ public class VelocityDLG extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jLabel1 = new javax.swing.JLabel();
+        tfDatum = new javax.swing.JTextField();
+        jLabel2 = new javax.swing.JLabel();
+        tfUhrzeit = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        tfKennzeichen = new javax.swing.JTextField();
+        jLabel3 = new javax.swing.JLabel();
+        tfGemessen = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        tfErlaubt = new javax.swing.JTextField();
+        btUebernehmen = new javax.swing.JButton();
+        btAbbrechen = new javax.swing.JButton();
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
-        );
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        getContentPane().setLayout(new java.awt.GridLayout(6, 2));
+
+        jLabel1.setText("Datum:");
+        getContentPane().add(jLabel1);
+
+        tfDatum.setText("08.10.2013");
+        getContentPane().add(tfDatum);
+
+        jLabel2.setText("Uhrzeit:");
+        getContentPane().add(jLabel2);
+
+        tfUhrzeit.setText("07:15");
+        getContentPane().add(tfUhrzeit);
+
+        jLabel4.setText("Kennzeichen:");
+        getContentPane().add(jLabel4);
+
+        tfKennzeichen.setText("GU-RASER1");
+        getContentPane().add(tfKennzeichen);
+
+        jLabel3.setText("V-Gemessen:");
+        getContentPane().add(jLabel3);
+
+        tfGemessen.setText("123");
+        getContentPane().add(tfGemessen);
+
+        jLabel5.setText("V-Erlaubt:");
+        getContentPane().add(jLabel5);
+
+        tfErlaubt.setText("80");
+        getContentPane().add(tfErlaubt);
+
+        btUebernehmen.setText("übernehmen");
+        btUebernehmen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onUebernhemen(evt);
+            }
+        });
+        getContentPane().add(btUebernehmen);
+
+        btAbbrechen.setText("Abbrechen");
+        btAbbrechen.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                onAbbrechen(evt);
+            }
+        });
+        getContentPane().add(btAbbrechen);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void onUebernhemen(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onUebernhemen
+        LocalDate datum = LocalDate.parse(tfDatum.getText());
+        LocalTime uhrzeit = LocalTime.parse(tfUhrzeit.getText());
+        String kennzeichen = tfKennzeichen.getText();
+        int gemessen = Integer.parseInt(tfGemessen.getText());
+        int erlaubt = Integer.parseInt(tfErlaubt.getText());
+        
+        m = new Measurement(datum, uhrzeit, kennzeichen, gemessen, erlaubt);
+        this.dispose();
+    }//GEN-LAST:event_onUebernhemen
+
+    private void onAbbrechen(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAbbrechen
+        this.dispose();
+    }//GEN-LAST:event_onAbbrechen
+
+    public Measurement getM() {
+        return m;
+    }
+    
     /**
      * @param args the command line arguments
      */
@@ -87,5 +161,17 @@ public class VelocityDLG extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btAbbrechen;
+    private javax.swing.JButton btUebernehmen;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JTextField tfDatum;
+    private javax.swing.JTextField tfErlaubt;
+    private javax.swing.JTextField tfGemessen;
+    private javax.swing.JTextField tfKennzeichen;
+    private javax.swing.JTextField tfUhrzeit;
     // End of variables declaration//GEN-END:variables
 }

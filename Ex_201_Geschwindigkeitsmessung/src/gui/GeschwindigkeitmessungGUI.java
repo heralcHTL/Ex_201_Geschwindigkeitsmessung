@@ -1,4 +1,6 @@
 
+import BL.Measurement;
+import BL.VelocityTableRenderer;
 import gui.VelocityDLG;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableColumnModel;
@@ -9,50 +11,44 @@ import javax.swing.table.TableColumn;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Sabrina
  */
 public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
 
-     private VelocityTableModel vtm = new VelocityTableModel();
+    private VelocityTableModel vtm = new VelocityTableModel();
+
     /**
      * Creates new form GeschwindigkeitmessungGUI
      */
     public GeschwindigkeitmessungGUI() {
         initComponents();
-        
+
         this.setLocationRelativeTo(this);
         initTable();
-        
-        try
-        {
+
+        try {
             vtm.loadFromBinaryFile();
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error");
         }
-        
+
     }
-    
-    public void initTable()
-    {
+
+    public void initTable() {
         int[] colWidth = {200, 200, 350, 200, 200, 200};
         DefaultTableColumnModel dtcm = new DefaultTableColumnModel();
-        
-        
-        for (int i = 0; i < colWidth.length; i++) 
-        {
+
+        for (int i = 0; i < colWidth.length; i++) {
             TableColumn tc = new TableColumn(i, colWidth[i]);
             tc.setResizable(false);
             dtcm.addColumn(tc);
 
         }
 
-        tbGeschwindigkeitsmessung.setModel(vtm); 
-        tbGeschwindigkeitsmessung.setColumnModel(dtcm);   
+        tbGeschwindigkeitsmessung.setModel(vtm);
+        tbGeschwindigkeitsmessung.setColumnModel(dtcm);
         tbGeschwindigkeitsmessung.setDefaultRenderer(Object.class, new VelocityTableRenderer());
     }
 
@@ -102,6 +98,11 @@ public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
         jPopupMenu1.add(miDurchschnitt);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                onClosing(evt);
+            }
+        });
 
         plGeschwindigkeitsmessung.setLayout(new java.awt.BorderLayout());
 
@@ -134,49 +135,38 @@ public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void onAddMeasure(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onAddMeasure
-        try
-        {
-            VelocityDLG vdlg =  new VelocityDLG(this, true);
+        try {
+            VelocityDLG vdlg = new VelocityDLG(this, true);
             vdlg.setVisible(true);
-        
-//            if(vdlg.isOk())
-//            {
-//               vtm.addMeasurement(vdlg.getMesurement());
-//               vtm.saveToBinaryFile();
-//            }  
-        }
-        catch(Exception ex)
-        {
+            vtm.add((Measurement) vdlg.getM());
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error");
         }
     }//GEN-LAST:event_onAddMeasure
 
     private void onRemoveMeasure(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_onRemoveMeasure
-         try
-        {
+        try {
             int[] indicies = tbGeschwindigkeitsmessung.getSelectedRows();
             vtm.remove(indicies);
-            vtm.saveToBinaryFile();
-            
-        }
-        catch(Exception ex)
-        {
+
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error");
         }
     }//GEN-LAST:event_onRemoveMeasure
 
     private void gitDisplayAverage(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_gitDisplayAverage
-        try
-        {
+        try {
             double durchschnitt = vtm.berechneDurchschnitt();
             String s = "Durchschnittsübertretung: " + durchschnitt + " km/h";
             JOptionPane.showMessageDialog(null, s);
-        }
-        catch(Exception ex)
-        {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(null, "Error");
         }
     }//GEN-LAST:event_gitDisplayAverage
+
+    private void onClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_onClosing
+        vtm.saveToBinaryFile();
+    }//GEN-LAST:event_onClosing
 
     /**
      * @param args the command line arguments
@@ -216,7 +206,7 @@ public class GeschwindigkeitmessungGUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPopupMenu jPopupMenu1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JMenuBar mbMenu;
     private javax.swing.JMenu meDatei;
     private javax.swing.JMenuItem miDurchschnitt;
